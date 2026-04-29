@@ -59,6 +59,15 @@
     .screen { display: none; }
     .screen.active { display: block; }
 
+    .hero-flyer {
+      width: 100%;
+      height: auto;
+      max-height: 52vh;
+      object-fit: contain;
+      object-position: top center;
+      display: block;
+    }
+
     /* TYPOGRAPHY */
     .label-sm {
       font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
@@ -267,9 +276,10 @@
   <!-- ======================== INTRO ======================== -->
   <div class="card screen active" id="screen-intro" style="padding: 0; overflow: hidden;">
     <img
+      class="hero-flyer"
       src="https://fabiocabrera.github.io/niver42/flyer.png"
       alt="Aniversário do Fabio 42 anos – Varanda Garden Tatuapé"
-      style="width:100%; display:block; border-radius: 20px 20px 0 0; object-fit:cover;"
+      style="border-radius: 20px 20px 0 0;"
     />
     <div style="padding: 28px 28px 32px;">
       <p class="byline" style="margin-bottom:18px;">
