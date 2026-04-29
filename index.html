@@ -59,15 +59,6 @@
     .screen { display: none; }
     .screen.active { display: block; }
 
-    .hero-flyer {
-      width: 100%;
-      height: auto;
-      max-height: 52vh;
-      object-fit: contain;
-      object-position: top center;
-      display: block;
-    }
-
     /* TYPOGRAPHY */
     .label-sm {
       font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
@@ -113,6 +104,18 @@
     }
     .btn-gold:hover { opacity: 0.9; transform: scale(1.02); }
     .btn-gold:active { transform: scale(0.97); }
+
+    .scroll-cue {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 12px;
+      color: #d8ad47;
+      font-size: 34px;
+      line-height: 1;
+      text-shadow: 0 0 24px rgba(216,173,71,0.22);
+      animation: bounceDown 1.8s infinite;
+    }
 
     .btn-ghost {
       display: inline-block; width: 100%;
@@ -265,6 +268,7 @@
     @keyframes pop { 0%{transform:scale(0.7);opacity:0} 60%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
     @keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
     @keyframes goldPulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.35)} 50%{box-shadow:0 0 0 10px rgba(201,168,76,0)} }
+    @keyframes bounceDown { 0%,100%{transform:translateY(0);opacity:0.72} 50%{transform:translateY(8px);opacity:1} }
   </style>
 </head>
 <body>
@@ -276,10 +280,9 @@
   <!-- ======================== INTRO ======================== -->
   <div class="card screen active" id="screen-intro" style="padding: 0; overflow: hidden;">
     <img
-      class="hero-flyer"
       src="https://fabiocabrera.github.io/niver42/flyer.png"
       alt="Aniversário do Fabio 42 anos – Varanda Garden Tatuapé"
-      style="border-radius: 20px 20px 0 0;"
+      style="width:100%; display:block; border-radius: 20px 20px 0 0; object-fit:cover;"
     />
     <div style="padding: 28px 28px 32px;">
       <p class="byline" style="margin-bottom:18px;">
@@ -297,6 +300,7 @@
         </span>
       </p>
       <button class="btn-gold" onclick="startGame()">ACEITAR O DESAFIO</button>
+      <div class="scroll-cue" aria-hidden="true">↓</div>
     </div>
   </div>
 
