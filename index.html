@@ -109,6 +109,10 @@
       position: relative;
       padding: 0;
       overflow: hidden;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     .hero-wrap {
@@ -116,7 +120,14 @@
     }
 
     .intro-content {
-      padding: 40px 28px 32px;
+      margin-top: -10px;
+      padding: 34px 28px 32px;
+      background: rgba(15, 12, 6, 0.96);
+      border-radius: 22px 22px 20px 20px;
+      border: 1px solid rgba(201,168,76,0.18);
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.22);
+      position: relative;
+      z-index: 2;
     }
 
     .scroll-cue {
@@ -309,7 +320,7 @@
       <img
         src="https://fabiocabrera.github.io/niver42/flyer.png"
         alt="Aniversário do Fabio 42 anos – Varanda Garden Tatuapé"
-        style="width:100%; display:block; border-radius: 20px 20px 0 0; object-fit:cover;"
+        style="width:100%; display:block; object-fit:cover;"
       />
       <div class="scroll-cue" aria-hidden="true">↓</div>
     </div>
