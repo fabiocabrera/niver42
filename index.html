@@ -121,10 +121,12 @@
 
     .scroll-cue {
       position: absolute;
-      left: 50%;
+      left: 0;
+      right: 0;
       bottom: -23px;
       width: 46px;
       height: 46px;
+      margin: 0 auto;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -136,7 +138,6 @@
       border-radius: 999px;
       box-shadow: 0 0 24px rgba(216,173,71,0.08);
       text-shadow: 0 0 24px rgba(216,173,71,0.22);
-      transform: translateX(-50%);
       pointer-events: none;
       z-index: 3;
       animation: bounceDown 1.8s infinite;
