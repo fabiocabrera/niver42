@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aniversário do Fabio 42 Anos 🎉</title>
+  <meta property="og:title" content="Aniversário do Fabio 42 Anos 👑" />
+  <meta property="og:description" content="Você está convidado! Mas precisa passar no teste primeiro... 😏" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      background: #0a0805;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      color: #f0e6c8;
+      overflow-x: hidden;
+    }
+
+    #stars-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .star {
+      position: absolute; background: #c9a84c; border-radius: 50%;
+      animation: twinkle 3s infinite alternate;
+    }
+
+    #app {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 420px;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px 20px;
+    }
+
+    .card {
+      background: rgba(15, 12, 6, 0.92);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 20px;
+      padding: 36px 28px;
+      width: 100%;
+      box-shadow: 0 0 60px rgba(201,168,76,0.08);
+      text-align: center;
+      animation: fadeIn 0.5s ease both;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* TYPOGRAPHY */
+    .label-sm {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(201,168,76,0.55); margin-bottom: 4px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 14vw, 64px);
+      font-weight: 900; color: #c9a84c;
+      text-shadow: 0 0 40px rgba(201,168,76,0.25);
+      line-height: 1; margin-bottom: 2px;
+    }
+    .age-line {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; color: #c9a84c; margin-bottom: 20px;
+    }
+    .byline {
+      font-size: 14px; line-height: 1.65;
+      color: rgba(240,230,200,0.72); margin-bottom: 20px;
+    }
+
+    /* EVENT INFO */
+    .event-box {
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.22);
+      border-radius: 12px; padding: 14px 18px;
+      margin: 0 0 22px; line-height: 2.1;
+      font-size: 13.5px; color: rgba(240,230,200,0.82);
+    }
+    .event-box strong { color: #c9a84c; }
+
+    /* BUTTONS */
+    .btn-gold {
+      display: inline-block; width: 100%;
+      background: linear-gradient(135deg, #b8922e 0%, #e8cc7a 50%, #b8922e 100%);
+      color: #0a0805; font-family: 'Lato', sans-serif;
+      font-weight: 700; font-size: 14px;
+      letter-spacing: 2px; text-transform: uppercase;
+      border: none; border-radius: 10px;
+      padding: 15px 20px; cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+      animation: goldPulse 2.5s infinite;
+    }
+    .btn-gold:hover { opacity: 0.9; transform: scale(1.02); }
+    .btn-gold:active { transform: scale(0.97); }
+
+    .btn-ghost {
+      display: inline-block; width: 100%;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.3);
+      color: rgba(201,168,76,0.7);
+      font-family: 'Lato', sans-serif; font-weight: 700;
+      font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+      border-radius: 10px; padding: 12px 20px;
+      cursor: pointer; margin-top: 10px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(201,168,76,0.6); color: #c9a84c; }
+
+    .btn-whatsapp {
+      display: block; width: 100%;
+      background: #25D366; color: #fff;
+      font-family: 'Lato', sans-serif; font-weight: 700;
+      font-size: 15px; letter-spacing: 0.5px;
+      border: none; border-radius: 10px;
+      padding: 15px 20px; cursor: pointer;
+      margin-top: 12px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-whatsapp:hover { opacity: 0.93; transform: scale(1.02); }
+
+    /* GAME ELEMENTS */
+    .progress-wrap {
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px; height: 3px; margin-bottom: 24px;
+    }
+    .progress-fill {
+      height: 3px; background: #c9a84c; border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .q-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(201,168,76,0.5); margin-bottom: 12px;
+    }
+    .q-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700;
+      color: #f0e6c8; line-height: 1.4;
+      margin-bottom: 24px; min-height: 60px;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .opt {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.18);
+      border-radius: 10px; padding: 14px 16px;
+      color: #f0e6c8; font-size: 14px; text-align: left;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s;
+      line-height: 1.4;
+    }
+    .opt:hover:not(:disabled) {
+      background: rgba(201,168,76,0.09);
+      border-color: rgba(201,168,76,0.45);
+    }
+    .opt.wrong {
+      background: rgba(200,50,50,0.18) !important;
+      border-color: rgba(220,60,60,0.6) !important;
+      color: #f08080 !important;
+      animation: shake 0.4s ease;
+    }
+    .opt:disabled { cursor: default; }
+
+    .feedback {
+      font-size: 13px; color: #e05555;
+      font-style: italic; min-height: 22px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* FINAL SCREEN */
+    .score-ring {
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 2px solid #c9a84c;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 30px rgba(201,168,76,0.15);
+      animation: pop 0.5s ease both;
+    }
+    .score-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 900; color: #c9a84c;
+    }
+    .score-tag {
+      font-size: 9px; text-transform: uppercase;
+      letter-spacing: 1.5px; color: rgba(201,168,76,0.55);
+    }
+
+    .final-h {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 900; color: #c9a84c;
+      margin-bottom: 8px;
+    }
+    .divider {
+      width: 36px; height: 2px; background: rgba(201,168,76,0.35);
+      border-radius: 2px; margin: 10px auto 14px;
+    }
+    .final-body {
+      font-size: 14px; color: rgba(240,230,200,0.72);
+      line-height: 1.7; margin-bottom: 18px;
+    }
+
+    .exception-box {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 12px; padding: 14px 16px;
+      font-size: 14px; color: #c9a84c;
+      line-height: 1.65; margin-bottom: 6px;
+    }
+    .exception-box strong { color: #e8cc7a; }
+
+    /* CONFETTI */
+    .confetti-piece {
+      position: fixed; width: 8px; height: 8px;
+      border-radius: 2px; pointer-events: none; z-index: 999;
+      animation: confettiFall linear forwards;
+    }
+
+    /* ANIMATIONS */
+    @keyframes twinkle { from { opacity: 0.08; } to { opacity: 0.6; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+    @keyframes pop { 0%{transform:scale(0.7);opacity:0} 60%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+    @keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+    @keyframes goldPulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.35)} 50%{box-shadow:0 0 0 10px rgba(201,168,76,0)} }
+  </style>
+</head>
+<body>
+
+<div id="stars-bg"></div>
+
+<div id="app">
+
+  <!-- ======================== INTRO ======================== -->
+  <div class="card screen active" id="screen-intro" style="padding: 0; overflow: hidden;">
+    <img
+      src="flyer.png"
+      alt="Aniversário do Fabio 42 anos – Varanda Garden Tatuapé"
+      style="width:100%; display:block; border-radius: 20px 20px 0 0; object-fit:cover;"
+    />
+    <div style="padding: 28px 28px 32px;">
+      <p class="byline" style="margin-bottom:18px;">
+        Você está convidado(a)!<br>
+        Mas antes precisa passar no<br>
+        <strong style="color:#c9a84c;">Teste Oficial de Afinidade</strong> 😏
+      </p>
+      <button class="btn-gold" onclick="startGame()">ACEITAR O DESAFIO</button>
+    </div>
+  </div>
+
+  <!-- ======================== GAME ======================== -->
+  <div class="card screen" id="screen-game">
+    <div class="progress-wrap">
+      <div class="progress-fill" id="progress-bar" style="width:0%"></div>
+    </div>
+    <div class="q-label" id="q-num">Pergunta 1 de 5</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options-wrap"></div>
+    <div class="feedback" id="feedback-msg"></div>
+  </div>
+
+  <!-- ======================== FINAL ======================== -->
+  <div class="card screen" id="screen-final">
+    <div class="score-ring">
+      <div class="score-num" id="final-score">0</div>
+      <div class="score-tag">pontos</div>
+    </div>
+
+    <div class="final-h">Resultado Oficial 📋</div>
+    <div class="divider"></div>
+
+    <p class="final-body" id="final-body"></p>
+
+    <div class="exception-box">
+      🎉 <strong>EXCEÇÃO ABERTA!</strong><br>
+      O Fabio revisou seu caso pessoalmente<br>
+      e decidiu: <strong>você está convidado(a)!</strong><br>
+      <span style="font-size:12px;opacity:0.8;">
+        Acontece só uma vez na vida. Não desperdice. 😂
+      </span>
+    </div>
+
+    <button class="btn-whatsapp" onclick="shareWhatsApp()">
+      ✓ Confirmar presença no WhatsApp 🎊
+    </button>
+    <button class="btn-ghost" onclick="resetGame()">Jogar novamente</button>
+  </div>
+
+</div>
+
+<script>
+  const questions = [
+    {
+      q: "Churrasco de aniversário: o que não pode faltar?",
+      opts: ["Picanha na brasa 🥩","Cerveja gelada 🍺","Caipirinha de limão 🍋","Bolo de aniversário 🎂"],
+      wrongs: [
+        "Errado! O Fabio é mais de espetinho de frango mesmo.",
+        "Errado! Ele prefere drinks sofisticados no Varanda Garden.",
+        "Errado! Ele tá na fase do vinho agora.",
+        "Errado! Ele pede brigadeiro, não bolo."
+      ]
+    },
+    {
+      q: "Se o Fabio pudesse escolher a trilha sonora do aniversário, seria...",
+      opts: ["Pagode raiz 🎶","Sertanejo universitário 🤠","Anos 80 / Rock clássico 🎸","Funk carioca 🎤"],
+      wrongs: [
+        "Errado! Ele detesta ficar 'no balanço do amor'.",
+        "Errado! Ele bloqueou todo mundo que gosta disso.",
+        "Errado! Mas... quase. Não conta.",
+        "Errado! Ele passa mal só de pensar."
+      ]
+    },
+    {
+      q: "Qual é o presente ideal para o Fabio?",
+      opts: ["Uma viagem surpresa ✈️","Um par de tênis novo 👟","Jantar num restaurante chique 🍽️","Nada — sua presença já é o presente 💛"],
+      wrongs: [
+        "Errado! Ele já foi a todos os lugares que queria.",
+        "Errado! Ele tem mais tênis do que dias do mês.",
+        "Errado! Ele prefere bar a restaurante chique.",
+        "Errado! Mentira descarada. Traga presente."
+      ]
+    },
+    {
+      q: "Como o Fabio prefere comemorar aniversário?",
+      opts: ["Festa enorme com todo mundo 🎉","Jantar íntimo com poucos amigos 🕯️","Viagem solo para descansar 🏖️","Ignorar o dia completamente 😶"],
+      wrongs: [
+        "Errado! Ele fica nervoso com mais de 30 pessoas.",
+        "Errado! Ele fica entediado com menos de 100.",
+        "Errado! Ele odeia praia. (Ou ama. Difícil saber.)",
+        "Errado! Ele fez um flyer inteiro pra promover o dia."
+      ]
+    },
+    {
+      q: "O que o Fabio mais valoriza nos amigos?",
+      opts: ["Lealdade e honestidade 🤝","Bom humor e leveza 😂","Presença constante 💪","Pontualidade e compromisso ⏰"],
+      wrongs: [
+        "Errado! Ele prefere quem concorda com ele.",
+        "Errado! Ele odeia quando riem das piadas dele.",
+        "Errado! Ele some por semanas e quer que você faça o mesmo.",
+        "Errado! Ele mesmo nunca chega no horário."
+      ]
+    }
+  ];
+
+  let current = 0, locked = false;
+
+  // Stars background
+  (function() {
+    const bg = document.getElementById('stars-bg');
+    for (let i = 0; i < 50; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const sz = Math.random() * 2.5 + 1;
+      s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`;
+      bg.appendChild(s);
+    }
+  })();
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startGame() {
+    current = 0;
+    showScreen('screen-game');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = questions[current];
+    const total = questions.length;
+    document.getElementById('q-num').textContent = `Pergunta ${current + 1} de ${total}`;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('progress-bar').style.width = `${(current / total) * 100}%`;
+    document.getElementById('feedback-msg').textContent = '';
+
+    const wrap = document.getElementById('options-wrap');
+    wrap.innerHTML = '';
+    q.opts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = opt;
+      btn.onclick = () => pickAnswer(i, btn);
+      wrap.appendChild(btn);
+    });
+    locked = false;
+  }
+
+  function pickAnswer(i, btn) {
+    if (locked) return;
+    locked = true;
+
+    document.querySelectorAll('.opt').forEach(b => b.disabled = true);
+    btn.classList.add('wrong');
+    document.getElementById('feedback-msg').textContent = questions[current].wrongs[i];
+
+    setTimeout(() => {
+      current++;
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        showFinal();
+      }
+    }, 1700);
+  }
+
+  function showFinal() {
+    document.getElementById('progress-bar').style.width = '100%';
+    document.getElementById('final-score').textContent = '0';
+    document.getElementById('final-body').innerHTML =
+      'Você errou <strong style="color:#c9a84c;">todas</strong> as perguntas.<br>' +
+      'Nível de afinidade com o Fabio: <strong style="color:#c9a84c;">0%</strong>.<br>' +
+      'Em condições normais, isso seria um problema.<br>' +
+      'Mas hoje é aniversário dele... 🎂';
+
+    showScreen('screen-final');
+    spawnConfetti();
+  }
+
+  function spawnConfetti() {
+    const colors = ['#c9a84c','#e8cc7a','#fff5d6','#f0a500','#ffffff','#d4af37'];
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.cssText = `left:${Math.random()*100}%;top:-12px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.8+Math.random()*2}s;transform:rotate(${Math.random()*360}deg)`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }, i * 50);
+    }
+  }
+
+  function shareWhatsApp() {
+    const msg = encodeURIComponent(
+      "Acabei de confirmar presença no seu aniversário Fabioooo! 🎉👑\n\n" +
+      "Errei *TUDO* no quiz mas como foi aberto uma exceção estrei lá! kkkk 😂\n\n" +
+      "📅 30/04 · Quarta · a partir das 20h\n" +
+      "📍 Varanda Garden Tatuapé\n" +
+      "Rua Serra de Japi, 997 – São Paulo/SP"
+    );
+    window.open(`https://wa.me/?text=${msg}`, '_blank');
+  }
+
+  function resetGame() {
+    current = 0;
+    showScreen('screen-intro');
+  }
+</script>
+</body>
+</html>
